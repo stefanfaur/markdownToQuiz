@@ -2,7 +2,7 @@ from typing import List, Union
 import re
 
 class Question:
-    def __init__(self, text: str, options: Union[List[str], None], correct_answer: str):
+    def __init__(self, text: str, options: Union[List[tuple[str, str]], None], correct_answer: str):
         self.text = text
         self.options = options
         self.correct_answer = correct_answer
@@ -38,6 +38,7 @@ def parse_markdown(md_content: str) -> List[Chapter]:
             question_text = question_parts[0].split('\n')[0].strip()
             correct_answer = question_parts[1].strip(' **').strip()
             correct_answer = correct_answer.rstrip(')**').strip()
+            correct_answer = correct_answer.replace('**', '')
 
             # Finding options if they exist, if not set to None
             options = None

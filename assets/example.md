@@ -20,7 +20,7 @@ D) It disappears and reappears randomly.
 
 -  **C)**
 
-4. What is this certain thing?
+3. What is this certain thing?
 
 -  **It is the thing you expect it to be.** Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl quis tincidunt aliquam, nunc nisl ultricies nunc, eget aliquam nisl nunc quis nisl.
 
