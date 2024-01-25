@@ -3,6 +3,7 @@ import random
 from typing import List
 from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QVBoxLayout, QWidget, QLabel, QTextEdit, QFileDialog, QDialog, QCheckBox, QDialogButtonBox, QVBoxLayout, QGroupBox
 from PyQt5.QtCore import Qt
+from PyQt5.QtGui import QFont
 
 
 from parse_md import parse_markdown, Chapter, Question
@@ -197,7 +198,7 @@ class QuizApp(QMainWindow):
             if question:
                 display_text = question.text
                 if question.options:
-                    display_text += "\n" + "\n".join([f"{option[0]}: {option[1]}" for option in question.options])
+                    display_text += "\n" + "\n".join([f"\n{option[0]}: {option[1]}" for option in question.options])
                 self.questionLabel.setText(display_text)
                 self.submitButton.show()
                 self.nextQuestionButton.hide()
@@ -227,6 +228,8 @@ class QuizApp(QMainWindow):
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
+    font = QFont("Courier", 16)
+    app.setFont(font)
     ex = QuizApp()
     ex.show()
     sys.exit(app.exec_())
