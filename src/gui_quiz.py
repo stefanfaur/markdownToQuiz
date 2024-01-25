@@ -1,11 +1,45 @@
 import sys
 import random
 from typing import List
-from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QVBoxLayout, QWidget, QLabel, QTextEdit, QFileDialog
+from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QVBoxLayout, QWidget, QLabel, QTextEdit, QFileDialog, QDialog, QCheckBox, QDialogButtonBox, QVBoxLayout, QGroupBox
 from PyQt5.QtCore import Qt
+
 
 from parse_md import parse_markdown, Chapter, Question
 
+
+class ChapterSelectionDialog(QDialog):
+    def __init__(self, chapters, parent=None):
+        super().__init__(parent)
+        self.chapters = chapters
+        self.selected_chapters = []
+        self.initUI()
+
+    def initUI(self):
+        self.setWindowTitle('Select Chapters')
+        layout = QVBoxLayout(self)
+
+        self.groupBox = QGroupBox("Chapters")
+        groupBoxLayout = QVBoxLayout()
+
+        self.checkboxes = []
+        for chapter in self.chapters:
+            checkbox = QCheckBox(chapter.title)
+            self.checkboxes.append(checkbox)
+            groupBoxLayout.addWidget(checkbox)
+
+        self.groupBox.setLayout(groupBoxLayout)
+        layout.addWidget(self.groupBox)
+
+        self.buttonBox = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
+        self.buttonBox.accepted.connect(self.accept)
+        self.buttonBox.rejected.connect(self.reject)
+        layout.addWidget(self.buttonBox)
+
+    def getSelectedChapters(self):
+        self.selected_chapters = [self.chapters[i] for i, cb in enumerate(self.checkboxes) if cb.isChecked()]
+        return self.selected_chapters
+    
 
 class AnswerEdit(QTextEdit):
     def __init__(self, parent=None):
@@ -118,9 +152,16 @@ class QuizApp(QMainWindow):
             with open(filename, 'r') as file:
                 md_content = file.read()
             parsed_chapters = parse_markdown(md_content)
-            self.quiz = Quiz(parsed_chapters)
-            self.showQuizElements()
-            self.showNextQuestion()
+            dialog = ChapterSelectionDialog(parsed_chapters, self)
+            if dialog.exec_() == QDialog.Accepted:
+                selected_chapters = dialog.getSelectedChapters()
+                if selected_chapters:
+                    self.quiz = Quiz(selected_chapters)
+                    self.showQuizElements()
+                    self.showNextQuestion()
+                else:
+                    self.quiz = None
+                    self.hideQuizElements()
 
     def startQuiz(self):
         options = QFileDialog.Options()
