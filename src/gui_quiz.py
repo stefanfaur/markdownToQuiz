@@ -72,7 +72,7 @@ class Quiz:
 
     def submit_answer(self, answer):
         question = self.questions[self.current_question_index]
-        is_correct = (answer == question.correct_answer)
+        is_correct = (answer == question.correct_answer_tag)
         if is_correct:
             self.correct_answers += 1
         else:
