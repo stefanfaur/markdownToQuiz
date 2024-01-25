@@ -37,6 +37,7 @@ jobs:
       run: python3 -m PyInstaller --onefile --paths=src src/gui_quiz.py --name=${{ matrix.asset_name }}
 
 
+
     - name: Create Release
       id: create_release
       uses: actions/create-release@v1
@@ -55,6 +56,6 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: src/dist/${{ matrix.asset_name }}
+        asset_path: ./dist/${{ matrix.asset_name }}
         asset_name: ${{ matrix.asset_name }}
         asset_content_type: application/zip
