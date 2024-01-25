@@ -7,7 +7,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: ['windows-latest', 'ubuntu-latest, 'macos-latest']
+        os: ['windows-latest', 'ubuntu-latest', 'macos-latest']
         include:
           - os: ubuntu-latest
             asset_name: markdownToQuiz_linux
@@ -35,7 +35,7 @@ jobs:
         draft: false
         prerelease: false
 
-   - name: Upload Release Asset
+    - name: Upload Release Asset
       id: upload-release-asset
       uses: actions/upload-release-asset@v1
       env:
