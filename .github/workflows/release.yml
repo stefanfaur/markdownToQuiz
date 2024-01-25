@@ -20,7 +20,7 @@ jobs:
       - name: Upload windows artifact
         uses: actions/upload-artifact@v2
         with:
-          name: markdownToQuiz_windows
+          name: uploads
           path: dist/markdownToQuiz_windows.exe
 
   build-linux:
@@ -37,7 +37,7 @@ jobs:
       - name: Upload linux artifact
         uses: actions/upload-artifact@v2
         with:
-          name: markdownToQuiz_linux
+          name: uploads
           path: dist/markdownToQuiz_linux
 
   build-macos:
@@ -54,7 +54,7 @@ jobs:
       - name: Upload macos artifact
         uses: actions/upload-artifact@v2
         with:
-          name: markdownToQuiz_mac
+          name: uploads
           path: dist/markdownToQuiz_mac
 
   upload-release:
