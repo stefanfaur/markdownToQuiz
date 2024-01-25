@@ -25,17 +25,30 @@ jobs:
         python-version: 3.11
 
     - name: Set up Python environment
-      run: python3 -m venv venv
+      run: |
+        if [ "${{ matrix.os }}" = "windows-latest" ]; then
+          python -m venv venv
+        else
+          python3 -m venv venv
+        fi
 
     - name: Activate Python environment
-      run: source venv/bin/activate
+      run: |
+        if [ "${{ matrix.os }}" = "windows-latest" ]; then
+          .\venv\Scripts\activate
+        else
+          source venv/bin/activate
+        fi
 
     - name: Install dependencies
       run: pip install -r requirements.txt
 
     - name: Build with PyInstaller
-      run: python3 -m PyInstaller --onefile --paths=src src/gui_quiz.py --name=${{ matrix.asset_name }}
-
+      run: |
+        if [ "${{ matrix.os }}" = "windows-latest" ]; then
+          python -m PyInstaller --onefile --paths=src src/gui_quiz.py --name=${{ matrix.asset_name }}
+        else
+          python3 -m PyInstaller --onefile --paths=src src/gui_quiz.py --name=${{ matrix.asset_name }}
 
     - name: Upload binaries to release
       uses: svenstaro/upload-release-action@v2
