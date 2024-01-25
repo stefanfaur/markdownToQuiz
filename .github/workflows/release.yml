@@ -22,7 +22,12 @@ jobs:
       with:
         python-version: 3.11
 
-    - run: bash build_release.sh
+    - run: |
+        if [[ "${{ matrix.os }}" == "windows-latest" ]]; then
+          cmd /C "build_release_win.bat"
+        else
+          bash build_release.sh
+        fi
 
     - name: Create Release
       id: create_release
