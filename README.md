@@ -45,7 +45,12 @@ To run the quiz generator, navigate to the project directory and execute:
 python3 src/gui_quiz.py
 ```
 
-Currently, the tool is run from the command line, with an executable version in development.
+You can also find the executable version in the src/dist folder. It is compiled as a Mac ARM64 binary.
+If you want to compile your own version, you can use the following commands:
+
+```bash
+bash build_release.sh
+```
 
 ### Quiz Format
 

@@ -1,1 +1,6 @@
 __pycache__
+venv
+build
+gui_quiz.spec
+.DS_Store
+```
