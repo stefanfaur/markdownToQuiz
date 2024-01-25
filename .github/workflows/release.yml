@@ -76,10 +76,10 @@ jobs:
       - name: Download artifacts
         uses: actions/download-artifact@v1
         with:
-          path: uploads
+          name: uploads
 
       - name: Upload windows binary
-        uses: actions/upload-release-asset@v1
+        uses: actions/upload-release-asset@v1.0.1
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ./uploads/markdownToQuiz_windows.exe
@@ -89,7 +89,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Upload linux binary
-        uses: actions/upload-release-asset@v1
+        uses: actions/upload-release-asset@v1.0.1
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ./uploads/markdownToQuiz_linux
@@ -99,7 +99,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Upload macos binary
-        uses: actions/upload-release-asset@v1
+        uses: actions/upload-release-asset@v1.0.1
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ./uploads/markdownToQuiz_mac
