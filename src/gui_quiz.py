@@ -124,10 +124,20 @@ class QuizApp(QMainWindow):
         centralWidget = QWidget()
         centralWidget.setLayout(layout)
         self.setCentralWidget(centralWidget)
+        
+        self.statusBar = self.statusBar()  # Initialize the status bar
 
         # Initially hide elements except for the load file button
         self.hideQuizElements()
 
+    def updateStatusBar(self):
+        if self.quiz:
+            answered = self.quiz.current_question_index
+            correct = self.quiz.correct_answers
+            wrong = self.quiz.wrong_answers
+            total = self.quiz.total_questions
+            status_text = f"Answered: {answered}/{total} | Correct: {correct} | Wrong: {wrong}"
+            self.statusBar.showMessage(status_text)
 
     def hideQuizElements(self):
         self.questionLabel.hide()
@@ -191,6 +201,7 @@ class QuizApp(QMainWindow):
                 self.questionLabel.setText(display_text)
                 self.submitButton.show()
                 self.nextQuestionButton.hide()
+                self.updateStatusBar()
             else:
                 correct, wrong, total = self.quiz.get_results()
                 self.questionLabel.setText(f"Quiz Finished!\nCorrect Answers: {correct}\nWrong Answers: {wrong}\nTotal Questions: {total}")
@@ -205,6 +216,7 @@ class QuizApp(QMainWindow):
             self.showFeedback(is_correct)
             self.submitButton.hide()
             self.nextQuestionButton.show()
+            self.updateStatusBar()
 
     def showFeedback(self, is_correct):
         question = self.quiz.questions[self.quiz.current_question_index - 1]
