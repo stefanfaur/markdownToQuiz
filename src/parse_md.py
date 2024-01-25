@@ -34,11 +34,15 @@ def parse_markdown(md_content: str) -> List[Chapter]:
         questions = []
         question_splits = re.split(r'\n\d+\.\s+', chapter_content)[1:]  # Skip the chapter title part
         for question_content in question_splits:
-            question_parts = question_content.split('\n-')
-            question_text = question_parts[0].split('\n')[0].strip()
-            correct_answer = question_parts[1].strip(' **').strip()
-            correct_answer = correct_answer.rstrip(')**').strip()
-            correct_answer = correct_answer.replace('**', '')
+            try:
+                question_parts = question_content.split('\n-')
+                question_text = question_parts[0].split('\n')[0].strip()
+                correct_answer = question_parts[1].strip(' **').strip()
+                correct_answer = correct_answer.rstrip(')**').strip()
+                correct_answer = correct_answer.replace('**', '')
+
+            except Exception as e:
+                print(f"Error parsing question: {question_text}")
 
             # Finding options if they exist, if not set to None
             options = None
