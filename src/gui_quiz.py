@@ -159,7 +159,7 @@ class QuizApp(QMainWindow):
         options = QFileDialog.Options()
         filename, _ = QFileDialog.getOpenFileName(self, "Open Markdown File", "", "Markdown Files (*.md)", options=options)
         if filename:
-            with open(filename, 'r') as file:
+            with open(filename, 'r', encoding='utf-8') as file:
                 md_content = file.read()
             parsed_chapters = parse_markdown(md_content)
             dialog = ChapterSelectionDialog(parsed_chapters, self)
