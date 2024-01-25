@@ -36,8 +36,6 @@ jobs:
     - name: Build with PyInstaller
       run: python3 -m PyInstaller --onefile --paths=src src/gui_quiz.py
 
-    - name: Deactivate Python environment
-      run: deactivate
 
     - name: Create Release
       id: create_release
