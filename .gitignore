@@ -3,4 +3,5 @@ venv
 build
 gui_quiz.spec
 .DS_Store
+dist
 ```
