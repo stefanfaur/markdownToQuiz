@@ -89,11 +89,12 @@ class Quiz:
         return None
 
     def submit_answer(self, answer):
+        no_option_question = self.questions[self.current_question_index].options is None
         question = self.questions[self.current_question_index]
         is_correct = (answer == question.correct_answer_tag)
-        if is_correct:
+        if is_correct and not no_option_question:
             self.correct_answers += 1
-        else:
+        elif not no_option_question:
             self.wrong_answers += 1
         self.current_question_index += 1
         return is_correct
@@ -241,8 +242,11 @@ class QuizApp(QMainWindow):
 
     def showFeedback(self, is_correct):
         question = self.quiz.questions[self.quiz.current_question_index - 1]
-        feedback_text = f"Correct answer: {question.correct_answer}\n"
-        feedback_text += "Your answer is correct!" if is_correct else "Your answer is incorrect."
+        if question.options:
+            feedback_text = f"Correct answer: {question.correct_answer}\n"
+            feedback_text += "Your answer is correct!" if is_correct else "Your answer is incorrect."
+        else:
+            feedback_text = f"{question.correct_answer}\n"
         self.feedbackEdit.setText(feedback_text)
         
 def applyDarkTheme(app):
