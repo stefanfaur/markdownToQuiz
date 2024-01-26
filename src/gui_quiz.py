@@ -13,7 +13,6 @@ class ChapterSelectionDialog(QDialog):
     def __init__(self, chapters, parent=None):
         super().__init__(parent)
         self.chapters = chapters
-        self.selected_chapters = []
         self.initUI()
 
     def initUI(self):
@@ -32,14 +31,32 @@ class ChapterSelectionDialog(QDialog):
         self.groupBox.setLayout(groupBoxLayout)
         layout.addWidget(self.groupBox)
 
+        # Buttons for select all and deselect all
+        self.selectAllButton = QPushButton("Select All", self)
+        self.selectAllButton.clicked.connect(self.selectAll)
+        layout.addWidget(self.selectAllButton)
+
+        self.deselectAllButton = QPushButton("Deselect All", self)
+        self.deselectAllButton.clicked.connect(self.deselectAll)
+        layout.addWidget(self.deselectAllButton)
+
         self.buttonBox = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
         self.buttonBox.accepted.connect(self.accept)
         self.buttonBox.rejected.connect(self.reject)
         layout.addWidget(self.buttonBox)
 
+    def selectAll(self):
+        for checkbox in self.checkboxes:
+            checkbox.setChecked(True)
+
+    def deselectAll(self):
+        for checkbox in self.checkboxes:
+            checkbox.setChecked(False)
+
     def getSelectedChapters(self):
         self.selected_chapters = [self.chapters[i] for i, cb in enumerate(self.checkboxes) if cb.isChecked()]
         return self.selected_chapters
+
     
 
 class AnswerEdit(QTextEdit):
@@ -93,6 +110,7 @@ class QuizApp(QMainWindow):
     def initUI(self):
         self.setWindowTitle('Quiz Application')
         self.setGeometry(100, 100, 800, 600)
+        self.setMinimumSize(800, 600)
 
         layout = QVBoxLayout()
 
@@ -101,6 +119,7 @@ class QuizApp(QMainWindow):
         layout.addWidget(self.loadFileButton)
 
         self.questionLabel = QLabel("")
+        self.questionLabel.setWordWrap(True)
         layout.addWidget(self.questionLabel)
 
         self.answerEdit = AnswerEdit(self)
