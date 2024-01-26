@@ -3,7 +3,7 @@ import random
 from typing import List
 from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QVBoxLayout, QWidget, QLabel, QTextEdit, QFileDialog, QDialog, QCheckBox, QDialogButtonBox, QVBoxLayout, QGroupBox
 from PyQt5.QtCore import Qt
-from PyQt5.QtGui import QFont
+from PyQt5.QtGui import QFont, QPalette, QColor
 
 
 from parse_md import parse_markdown, Chapter, Question
@@ -215,9 +215,10 @@ class QuizApp(QMainWindow):
         if self.quiz:
             question = self.quiz.get_next_question()
             if question:
-                display_text = question.text
+                display_text = f"<span style='color: lightblue; font-weight: bold;'>{question.text}</span>"
                 if question.options:
-                    display_text += "\n" + "\n".join([f"\n{option[0]}: {option[1]}" for option in question.options])
+                    for option in question.options:
+                        display_text += f"<hr><span style='color: lightgreen;'>{option[0]}: {option[1]}</span>"
                 self.questionLabel.setText(display_text)
                 self.submitButton.show()
                 self.nextQuestionButton.hide()
@@ -243,10 +244,35 @@ class QuizApp(QMainWindow):
         feedback_text = f"Correct answer: {question.correct_answer}\n"
         feedback_text += "Your answer is correct!" if is_correct else "Your answer is incorrect."
         self.feedbackEdit.setText(feedback_text)
+        
+def applyDarkTheme(app):
+    app.setStyle("Fusion")
+
+    dark_palette = QPalette()
+
+    dark_palette.setColor(QPalette.Window, QColor(53, 53, 53)) 
+    dark_palette.setColor(QPalette.WindowText, Qt.white)
+    dark_palette.setColor(QPalette.Base, QColor(25, 25, 25))
+    dark_palette.setColor(QPalette.AlternateBase, QColor(53, 53, 53))
+    dark_palette.setColor(QPalette.ToolTipBase, Qt.white)
+    dark_palette.setColor(QPalette.ToolTipText, Qt.white)
+    dark_palette.setColor(QPalette.Text, Qt.white)
+    dark_palette.setColor(QPalette.Button, QColor(53, 53, 53))
+    dark_palette.setColor(QPalette.ButtonText, Qt.white)
+    dark_palette.setColor(QPalette.BrightText, Qt.red)
+    dark_palette.setColor(QPalette.Link, QColor(42, 130, 218))
+    dark_palette.setColor(QPalette.Highlight, QColor(42, 130, 218))
+    dark_palette.setColor(QPalette.HighlightedText, Qt.black)
+
+    app.setPalette(dark_palette)
+
+    app.setStyleSheet("QToolTip { color: #ffffff; background-color: #2a82da; border: 1px solid white; }")
+
 
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
+    applyDarkTheme(app)
     font = QFont("Courier", 16)
     app.setFont(font)
     ex = QuizApp()
