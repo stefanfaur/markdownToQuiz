@@ -9,8 +9,8 @@ jobs:
   build-windows:
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-python@v2
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
         with:
           python-version: 3.11
       - name: Install dependencies
@@ -18,7 +18,7 @@ jobs:
       - name: Build with PyInstaller
         run: pyinstaller --onefile --paths=src src/gui_quiz.py --name=markdownToQuiz_windows
       - name: Upload windows artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: uploads
           path: dist/markdownToQuiz_windows.exe
@@ -26,8 +26,8 @@ jobs:
   build-linux:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-python@v2
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
         with:
           python-version: 3.11
       - name: Install dependencies
@@ -35,7 +35,7 @@ jobs:
       - name: Build with PyInstaller
         run: pyinstaller --onefile --paths=src src/gui_quiz.py --name=markdownToQuiz_linux
       - name: Upload linux artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: uploads
           path: dist/markdownToQuiz_linux
@@ -43,8 +43,8 @@ jobs:
   build-macos:
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-python@v2
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
         with:
           python-version: 3.11
       - name: Install dependencies
@@ -52,7 +52,7 @@ jobs:
       - name: Build with PyInstaller
         run: pyinstaller --onefile --paths=src src/gui_quiz.py --name=markdownToQuiz_mac
       - name: Upload macos artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: uploads
           path: dist/markdownToQuiz_mac
@@ -61,10 +61,10 @@ jobs:
     runs-on: ubuntu-latest
     needs: [build-windows, build-linux, build-macos]
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Create release
         id: create_release
-        uses: actions/create-release@master
+        uses: actions/create-release@v1
         with:
           tag_name: ${{ github.ref }}
           release_name: Release ${{ github.ref }}
@@ -74,12 +74,12 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Download artifacts
-        uses: actions/download-artifact@v1
+        uses: actions/download-artifact@v4
         with:
           name: uploads
 
       - name: Upload windows binary
-        uses: actions/upload-release-asset@v1.0.1
+        uses: actions/upload-release-asset@v1
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ./uploads/markdownToQuiz_windows.exe
@@ -89,7 +89,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Upload linux binary
-        uses: actions/upload-release-asset@v1.0.1
+        uses: actions/upload-release-asset@v1
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ./uploads/markdownToQuiz_linux
@@ -99,7 +99,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Upload macos binary
-        uses: actions/upload-release-asset@v1.0.1
+        uses: actions/upload-release-asset@v1
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ./uploads/markdownToQuiz_mac
