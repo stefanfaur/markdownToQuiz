@@ -20,7 +20,7 @@ jobs:
       - name: Upload windows artifact
         uses: actions/upload-artifact@v4
         with:
-          name: uploads
+          name: windows-artifact
           path: dist/markdownToQuiz_windows.exe
 
   build-linux:
@@ -37,7 +37,7 @@ jobs:
       - name: Upload linux artifact
         uses: actions/upload-artifact@v4
         with:
-          name: uploads
+          name: linux-artifact
           path: dist/markdownToQuiz_linux
 
   build-macos:
@@ -54,7 +54,7 @@ jobs:
       - name: Upload macos artifact
         uses: actions/upload-artifact@v4
         with:
-          name: uploads
+          name: macos-artifact
           path: dist/markdownToQuiz_mac
 
   upload-release:
@@ -73,16 +73,29 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Download artifacts
+      - name: Download windows artifact
         uses: actions/download-artifact@v4
         with:
-          name: uploads
+          name: windows-artifact
+          path: artifacts/windows
+
+      - name: Download linux artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: linux-artifact
+          path: artifacts/linux
+
+      - name: Download macos artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: macos-artifact
+          path: artifacts/mac
 
       - name: Upload windows binary
         uses: actions/upload-release-asset@v1
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./uploads/markdownToQuiz_windows.exe
+          asset_path: ./artifacts/windows/markdownToQuiz_windows.exe
           asset_name: markdownToQuiz_windows.exe
           asset_content_type: application/octet-stream
         env:
@@ -92,7 +105,7 @@ jobs:
         uses: actions/upload-release-asset@v1
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./uploads/markdownToQuiz_linux
+          asset_path: ./artifacts/linux/markdownToQuiz_linux
           asset_name: markdownToQuiz_linux
           asset_content_type: application/octet-stream
         env:
@@ -102,7 +115,7 @@ jobs:
         uses: actions/upload-release-asset@v1
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./uploads/markdownToQuiz_mac
+          asset_path: ./artifacts/mac/markdownToQuiz_mac
           asset_name: markdownToQuiz_mac
           asset_content_type: application/octet-stream
         env:
