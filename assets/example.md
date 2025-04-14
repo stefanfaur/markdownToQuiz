@@ -45,9 +45,27 @@ D) Saturn
 
 - **C)**
 
-###  Chapter 3 - Unrelated questions
+###  Chapter 3 - Coding and other questions
 
-3. What is the color of the sky?
+1. What does this Python code do?
+
+```python
+def fibonacci(n):
+    if n <= 1:
+        return n
+    return fibonacci(n-1) + fibonacci(n-2)
+
+print(fibonacci(5))  # Output: 5
+```
+
+A) Calculates the factorial of a number
+B) Generates a random number
+C) Computes the Fibonacci sequence
+D) Sorts an array of numbers
+
+- **C)**
+
+2. What is the color of the sky?
 
 A) Blue
 B) Red
@@ -56,7 +74,7 @@ D) Yellow
 
 - **A)**
 
-4. How many days are there in a week?
+3. How many days are there in a week?
 
 A) 5
 B) 6
@@ -64,4 +82,3 @@ C) 7
 D) 8
 
 - **C)**
-
