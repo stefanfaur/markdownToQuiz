@@ -16,7 +16,7 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
       - name: Build with PyInstaller
-        run: pyinstaller --onefile --paths=src src/gui_quiz.py --name=markdownToQuiz_windows
+        run: pyinstaller --onefile --paths=src quiz.py --name=markdownToQuiz_windows
       - name: Upload windows artifact
         uses: actions/upload-artifact@v4
         with:
@@ -33,7 +33,7 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
       - name: Build with PyInstaller
-        run: pyinstaller --onefile --paths=src src/gui_quiz.py --name=markdownToQuiz_linux
+        run: pyinstaller --onefile --paths=src quiz.py --name=markdownToQuiz_linux
       - name: Upload linux artifact
         uses: actions/upload-artifact@v4
         with:
@@ -50,7 +50,7 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
       - name: Build with PyInstaller
-        run: pyinstaller --onefile --paths=src src/gui_quiz.py --name=markdownToQuiz_mac
+        run: pyinstaller --onefile --paths=src quiz.py --name=markdownToQuiz_mac
       - name: Upload macos artifact
         uses: actions/upload-artifact@v4
         with:
